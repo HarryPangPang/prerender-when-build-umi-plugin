@@ -1,6 +1,7 @@
 {
   "name": "prerender-when-build-umi-plugin",
   "main": "lib/index.js",
+  "version": "1.0.0",
   "description": "",
   "authors": {
     "name": "",
