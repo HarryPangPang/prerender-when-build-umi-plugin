@@ -15,7 +15,7 @@ Configure in `.umirc.js`,
 
 ```js
 export default {
-  plugins: [['prerender-umi-plugin']],
+  plugins: ['prerender-umi-plugin'],
 };
 ```
 
