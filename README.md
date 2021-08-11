@@ -19,6 +19,24 @@ export default {
 };
 ```
 
+## config
+
+```js
+export default defineConfig({
+  prerender: {
+    outDir: './app/public/dist',
+    renderOption: {
+      waitForElement: '.some-node',
+      devtools: true,
+      skipRequest: true,
+      headless: false,
+      viewport: { width: 1920, height: 1080 },
+    },
+  },
+  ...
+}
+```
+
 ## LICENSE
 
 MIT
