@@ -1,5 +1,5 @@
 import { defineConfig } from 'umi';
 
 export default defineConfig({
-  plugins: [require.resolve('../src')],
+  plugins: [require.resolve('../lib')],
 });
