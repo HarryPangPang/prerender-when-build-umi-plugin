@@ -1,7 +1,7 @@
 {
   "name": "prerender-when-build-umi-plugin",
   "main": "lib/index.js",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "",
   "authors": {
     "name": "",
@@ -59,8 +59,5 @@
   },
   "files": [
     "lib"
-  ],
-  "dependencies": {
-    "prerender-when-build-plugin": "^1.0.2"
-  }
+  ]
 }

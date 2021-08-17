@@ -42,36 +42,50 @@ class PuppeteerRenderer {
     page.on(
       'request',
       (req: {
-        _url: string;
         resourceType: any;
-        respond: (arg0: { content: string; body: string }) => void;
+        respond: (arg0: { contentType: string; body: string }) => void;
         url: () => string;
         abort: () => void;
         continue: () => void;
       }) => {
+        const isLocalApi =
+          ['fetch', 'xhr', 'websocket'].indexOf(req.resourceType()) > -1 &&
+          req.url().startsWith(baseURL);
         // 跳过所有请求
-        if (
-          this._options.skipRequest &&
-          ['fetch', 'xhr', 'websocket'].indexOf(req.resourceType()) > -1
-        ) {
+        if (this._options.skipRequest && isLocalApi) {
           req.abort();
           return;
         }
-        // mock地址
-        let apiPath: any = req._url.split('/');
-        apiPath = '/' + apiPath.splice(3).join('/');
         if (
-          this._options.mock &&
-          Object.prototype.toString.call(this._options.mock) ===
+          this._options.forceMock &&
+          Object.prototype.toString.call(this._options.forceMock) ===
             '[object Object]' &&
-          this._options.mock[apiPath]
+          this._options.forceMock[req.url()]
         ) {
           req.respond({
-            content: 'application/json',
-            body: JSON.stringify(this._options.mock[apiPath]),
+            contentType: 'application/json; charset=utf-8',
+            body: JSON.stringify(this._options.forceMock[req.url()]),
           });
           return;
         }
+        if (isLocalApi) {
+          // mock地址
+          let apiPath: any = req.url().split('/');
+          apiPath = '/' + apiPath.splice(3).join('/');
+          if (
+            this._options.mock &&
+            Object.prototype.toString.call(this._options.mock) ===
+              '[object Object]' &&
+            this._options.mock[apiPath]
+          ) {
+            req.respond({
+              contentType: 'application/json; charset=utf-8',
+              body: JSON.stringify(this._options.mock[apiPath]),
+            });
+            return;
+          }
+        }
+
         req.continue();
       },
     );
